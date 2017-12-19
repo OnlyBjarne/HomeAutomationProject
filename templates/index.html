@@ -1,23 +1,31 @@
-{% extends "layout.html" %}
-{% block body %}
-<div class="row">
-        <div class="col-sm-5">
-          <div class="card">
-            <div class="card-body" href="#">
-              <h4 class="card-title">Special title treatment</h4>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+{% extends "layout.html" %} {% block div %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6 mt-2">
+      <div class="card">
+        <h4 class="card-header">Featured</h4>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm">
+              Temperatur
+            </div>
+            <div class="col-sm text-right">
+              42&degC
             </div>
           </div>
-        </div>
-        <div class="col-sm-5">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title">Special title treatment</h4>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
+          <p class="card-text">Here i will add Weatherdata from yr</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
-{% endblock %}
+    </div>
+    <div class="col-sm-6 mt-2">
+      <div class="card">
+        <h4 class="card-header">Hei Esben</h4>
+        <div class="card-body">
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

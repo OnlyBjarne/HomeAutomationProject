@@ -1,6 +1,10 @@
 from flask import Flask, render_template
+from yr.libyr import Yr
 import paho.mqtt.client as mqtt
+
 APP = Flask(__name__)
+
+weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
 
 def on_connect(client, userdata, flags,rc):
     print("connected with result code "+str(rc))
@@ -32,10 +36,18 @@ def lamp(mode):
     client.publish("soverom/Alarm",payload=json)
     print("done")
     return json
+
 @APP.route("/light/color/<int:r>+<int:g>+<int:b>",methods=['POST'])
 def color(r,g,b):
     json = "{\"mode\":\"solid\",\"color\":["+r+","+g+","+b+"]}"
     return json
+
+@APP.route("/weather",methods=['GET'])
+def yr():
+    now = weather.now(as_json=True)
+    
+    return now
+    
 
 @APP.route("/thermostat/<int:day>/<int:night>",methods=['POST'])
 def termostat(day,night):
