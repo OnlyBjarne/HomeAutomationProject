@@ -42,10 +42,9 @@ def color(r,g,b):
     json = "{\"mode\":\"solid\",\"color\":["+r+","+g+","+b+"]}"
     return json
 
-@APP.route("/weather",methods=['GET'])
+@APP.route("/weather")
 def yr():
     now = weather.now(as_json=True)
-    
     return now
     
 

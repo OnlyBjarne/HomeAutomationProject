@@ -1,26 +1,31 @@
-{% extends "layout.html" %} {% block div %}
+<script src="/static/scripts.js"></script>  
+
+{% extends "layout.html" %} 
+{% block div %}
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-6 mt-2">
       <div class="card">
         <h4 class="card-header">Featured</h4>
         <div class="card-body">
-          <div class="row">
-            <div class="col-sm">
-              Temperatur
-            </div>
-            <div class="col-sm text-right">
-              42&degC
-            </div>
-          </div>
-          <p class="card-text">Here i will add Weatherdata from yr</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <table class="table" id="weatherTable">
+            <tbody>
+              <tr>
+                <td>Temperatur</td>
+                <td>-10&degC</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
     <div class="col-sm-6 mt-2">
       <div class="card">
-        <h4 class="card-header">Hei Esben</h4>
+        <h4 class="card-header">Hei Bjarne</h4>
         <div class="card-body">
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <a href="#" class="btn btn-primary">Go somewhere</a>
@@ -28,4 +33,5 @@
       </div>
     </div>
   </div>
-  {% endblock %}
+</div>
+{% endblock %}
