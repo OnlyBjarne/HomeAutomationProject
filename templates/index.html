@@ -1,22 +1,24 @@
-<script src="/static/scripts.js"></script>  
-
-{% extends "layout.html" %} 
-{% block div %}
+{% extends "layout.html" %} {% block div %}
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-6 mt-2">
       <div class="card">
-        <h4 class="card-header">Featured</h4>
+        <h4 class="card-header">Vær</h4>
         <div class="card-body">
-          <table class="table" id="weatherTable">
-            <tbody>
+          <img src="" id="weathericon">
+          <table class="table">
+            <tbody id="weatherTable">
               <tr>
                 <td>Temperatur</td>
-                <td>-10&degC</td>
+                <td class="text-right" id="tempData"></td>
               </tr>
               <tr>
-                <td></td>
-                <td></td>
+                <td>Nedbør</td>
+                <td class="text-right" id="perciData"></td>
+              </tr>
+              <tr>
+                <td>Vind</td>
+                <td class="text-right" id="windData"></td>
               </tr>
             </tbody>
           </table>
