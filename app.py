@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from yr.libyr import Yr
 import paho.mqtt.client as mqtt
 
@@ -42,10 +42,22 @@ def color(r,g,b):
     json = "{\"mode\":\"solid\",\"color\":["+r+","+g+","+b+"]}"
     return json
 
-@APP.route("/weather")
-def yr():
+@APP.route("/weather/now")
+def weatherNow():
     now = weather.now(as_json=True)
     return now
+
+@APP.route("/weather/forcast")
+def weatherForcast():
+    output = []
+    for forecast in weather.forecast():
+        output.append(forecast)
+    return jsonify(items=output)
+
+
+@APP.route("/weather")
+def forecast():
+    return render_template('forecast.html')
     
 
 @APP.route("/thermostat/<int:day>/<int:night>",methods=['POST'])
