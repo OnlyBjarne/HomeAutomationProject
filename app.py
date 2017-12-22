@@ -44,14 +44,16 @@ def color(r,g,b):
 
 @APP.route("/weather/now")
 def weatherNow():
-    now = weather.now(as_json=True)
-    return now
+    now = weather.now()
+    print("getting current weather")
+    return jsonify(now)
 
 @APP.route("/weather/forcast")
 def weatherForcast():
     output = []
     for forecast in weather.forecast():
         output.append(forecast)
+    print("getting forecast weather")
     return jsonify(items=output)
 
 
