@@ -4,7 +4,10 @@ import paho.mqtt.client as mqtt
 
 APP = Flask(__name__)
 
-weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
+try:
+    weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
+except Exception as identifier:
+    print(identifier)
 
 def on_connect(client, userdata, flags,rc):
     print("connected with result code "+str(rc))
@@ -37,9 +40,11 @@ def lamp(mode):
     print("done")
     return json
 
-@APP.route("/light/color/<int:r>+<int:g>+<int:b>",methods=['POST'])
+@APP.route("/light/color/<r>+<g>+<b>",methods=['POST'])
 def color(r,g,b):
     json = "{\"mode\":\"solid\",\"color\":["+r+","+g+","+b+"]}"
+    print("color is: "+ r + " " + g + " " + b)
+    client.publish("soverom/Alarm",payload=json)
     return json
 
 @APP.route("/weather/now")

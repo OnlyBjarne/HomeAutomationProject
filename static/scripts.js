@@ -20,7 +20,7 @@ function getWeatherNow() {
         ];
 
         
-        $( "#weathericon" ).attr("src", "https://www.yr.no/grafikk/sym/v2017/png/100/"+result[0]+".png");
+        $( "#weathericon" ).attr("src", "static/images/weatherIcons/"+result[0]+".png");
         $( "#tempData" ).html(result[1]+"&degC");
         $( "#perciData" ).html(result[2]+" mm");
         $( "#windData" ).html(result[3]+"m/s fra <img src=\"http://fil.nrk.no/yr/grafikk/vindpiler/32/vindpil.0000."+
@@ -48,7 +48,7 @@ function getForecast(){
             $('#weatherForcastTable').append(
                 "<tr>"+
                 "<td>"+time+"</td>"+
-                "<td><img style=\"width:50px;\" src=https://www.yr.no/grafikk/sym/v2017/png/100/"
+                "<td><img style=\"width:50px;\" src=static/images/weatherIcons/"
                         +data['items'][i]['symbol']['@var']+".png></td>"+
                 "<td class=\"text-center\">"+data['items'][i]['temperature']['@value']+"&degC</td>"+
                 "<td>"+data['items'][i]['precipitation']['@value']+"mm</td>"+
