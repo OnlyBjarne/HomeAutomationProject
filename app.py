@@ -64,7 +64,7 @@ def weatherForcast():
 
 @APP.route("/weather")
 def forecast():
-    return render_template('forecast.html')
+    return render_template('timepicker.html')
     
 
 @APP.route("/thermostat/<int:day>/<int:night>",methods=['POST'])

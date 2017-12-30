@@ -6,7 +6,11 @@ $(document).ready(function () {
     }
     if(document.location.pathname == "/"){
        getWeatherNow();
-   }
+    }
+    if(document.location.pathname == "/timepicker"){
+        alarmSet();
+    }
+
 });
 
 function getWeatherNow() {
@@ -41,9 +45,9 @@ function getForecast(){
             var hour = date.getHours() < 10 ? '0'+date.getHours() : date.getHours();
             var minutes = date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes();
             var day = date.getDay();
-            var dayName = ["Søn","Man","Tir","Ons","Tor","Fre","Lør"]
+            var dayName = ["Søn","Man","Tir","Ons","Tor","Fre","Lør"];
             var time = dayName[day] + " " + hour + ":" + minutes;
-            var windDeg =  getArrowAngle(data['items'][i]['windDirection']['@deg'])
+            var windDeg =  getArrowAngle(data['items'][i]['windDirection']['@deg']);
             
             $('#weatherForcastTable').append(
                 "<tr>"+
@@ -68,4 +72,8 @@ function padString(string,lenght) {
 
 function getArrowAngle(angle){
     return Math.round(parseInt(angle)/5)*5;
+}
+
+function alarmSet() {
+    $('#time').bootstrapMaterialDatePicker({ date: false }); 
 }
