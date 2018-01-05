@@ -10,9 +10,9 @@ The goal of this project is to make a dynamic, customizable SinglePageApplicatio
 
 You need:
 
-	* pip install python-yr
+	pip install python-yr
 
-	* pip install paho-mqtt
+	pip install paho-mqtt
 
 Probably virtual env
 
