@@ -1,0 +1,84 @@
+{% extends "layout.html" %} {% block div %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 mt-3">
+      <div class="card">
+        <h4 class="card-header">Farge</h4>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="mode">Mode</label>
+            <select class="custom-select" id="mode">
+              <option>Off</option>
+              <optgroup label="Mode">
+                <option>Solid</option>
+                <option>Strand</option>
+                <option>Noise</option>
+              </optgroup>
+            </select>
+          </div>
+          <label for="colorpicker">Color</label>
+          <div id="colorpicker">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+
+  $(function () {
+    var mode;
+    var rgb;
+    var speed = "10";
+    
+    $.getJSON("/color/picker", function (data) {
+      mode = data['mode'];
+      console.log(mode);
+      rgb = data['rgb'];
+      console.log(rgb);
+      speed = data['speed'];
+      console.log(speed);
+      
+    }
+  );
+  
+  
+  
+  $('#mode').change(function () {
+    mode = $(this).val();
+    send(mode, rgb, speed);
+  });
+  $('#colorpicker').colorpicker({
+    color: "\"" + rgb + "\"",
+    format: "rgb",
+    inline: true,
+    container: true
+  }).on('colorpickerChange', function (e) {
+    rgb = e.color.toString();
+    console.log(rgb);
+    
+  }).on('mouseup touchend', function (f) {
+    send(mode, rgb, speed);
+  });
+});
+
+function send(newMode, newRgb, newSpeed) {
+  $.ajax({
+    type: 'POST',
+    url: '/color/picker',
+    data: {
+      'mode': newMode,
+      'rgb': newRgb,
+      'speed': newSpeed
+    },
+    success: function (msg) {
+      
+    }
+    
+  });
+}
+}
+);
+</script> {% endblock %}

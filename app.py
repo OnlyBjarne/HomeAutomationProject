@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify,request
 from yr.libyr import Yr
 import paho.mqtt.client as mqtt
 
@@ -19,58 +19,53 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.username_pw_set("OnlyBjarne","Pingvin1")
-client.connect_async("wilbur.local")
+client.username_pw_set("username","password")
+client.connect_async("mqtt_broker_ip")
 client.loop_start()
+
+mode = 'Solid'
+rgb = 'rgb(100, 100, 100)'
+speed = '10'
 
 @APP.route("/")
 def main():
-    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et arcu a quam interdum luctus sed vitae nisi. Nunc id pretium ex. Vivamus congue gravida metus ut iaculis. Fusce pharetra dolor sed odio blandit porta. Maecenas vitae blandit tellus. Integer nisi erat, hendrerit sed lacinia sit amet, luctus id sapien. Donec nec mi a nulla finibus volutpat rhoncus at elit."
     return render_template('index.html')
 
-@APP.route("/cards")
-def cards():
-    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et arcu a quam interdum luctus sed vitae nisi. Nunc id pretium ex. Vivamus congue gravida metus ut iaculis. Fusce pharetra dolor sed odio blandit porta. Maecenas vitae blandit tellus. Integer nisi erat, hendrerit sed lacinia sit amet, luctus id sapien. Donec nec mi a nulla finibus volutpat rhoncus at elit."
-    return render_template('cards.html')
+@APP.route("/color")
+def color():
+    return render_template('color.html')
 
-@APP.route("/light/mode/<string:mode>",methods=['POST'])
-def lamp(mode):
-    json = "{\"mode\" : \"" + mode + "\"}"
-    client.publish("soverom/Alarm",payload=json)
-    print("done")
-    return json
 
-@APP.route("/light/color/<r>+<g>+<b>",methods=['POST'])
-def color(r,g,b):
-    json = "{\"mode\":\"solid\",\"color\":["+r+","+g+","+b+"]}"
-    print("color is: "+ r + " " + g + " " + b)
-    client.publish("soverom/Alarm",payload=json)
-    return json
+@APP.route("/color/picker",methods=['GET','POST'])
+def colorPicker():
+    if request.method == 'POST':
+        global mode
+        global rgb
+        global speed
+        mode = request.form.get('mode')
+        rgb =  request.form.get('rgb')
+        speed =  request.form.get('speed')
+    print(mode + "\n" + rgb + "\n" + speed)
+    return jsonify(mode=mode,rgb=rgb,speed=speed)
 
-@APP.route("/weather/now")
+@APP.route("/weather/now",methods=['GET'])
 def weatherNow():
     now = weather.now()
-    print("getting current weather")
+    #print("getting current weather")
     return jsonify(now)
 
-@APP.route("/weather/forcast")
+@APP.route("/weather/forcast",methods=['GET'])
 def weatherForcast():
     output = []
     for forecast in weather.forecast():
         output.append(forecast)
-    print("getting forecast weather")
+    #print("getting forecast weather")
     return jsonify(items=output)
 
 
-@APP.route("/weather")
+@APP.route("/weather",methods=['GET'])
 def forecast():
-    return render_template('timepicker.html')
-    
-
-@APP.route("/thermostat/<int:day>/<int:night>",methods=['POST'])
-def termostat(day,night):
-    return
-
+    return render_template('forecast.html')
 
 client.loop_stop()
 

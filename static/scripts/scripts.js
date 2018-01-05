@@ -33,8 +33,6 @@ function getWeatherNow() {
     setTimeout(getWeatherNow, 10*60*1000);
 }
 
-
-
 function getForecast(){
     
     $.getJSON('/weather/forcast',function(data){
@@ -71,7 +69,11 @@ function padString(string,lenght) {
 }
 
 function getArrowAngle(angle){
-    return Math.round(parseInt(angle)/5)*5;
+    angle = Math.round(parseInt(angle)/5)*5;
+    if (angle==360) {
+        angle = 0;
+    }
+    return angle;
 }
 
 function alarmSet() {
