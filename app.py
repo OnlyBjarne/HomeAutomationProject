@@ -1,8 +1,12 @@
 from flask import Flask, render_template, jsonify,request
 from yr.libyr import Yr
+import yaml
 import paho.mqtt.client as mqtt
 
 APP = Flask(__name__)
+
+with open("config.yml", 'r') as ymlfile:
+    cfg = yaml.load(ymlfile)
 
 try:
     weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
@@ -19,8 +23,8 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.username_pw_set("username","password")
-client.connect_async("mqtt_broker_ip")
+client.username_pw_set(cfg['MQTT_USER'],cfg['MQTT_PASS'])
+client.connect_async(cfg['MQTT_BROKER'])
 client.loop_start()
 
 mode = 'Solid'
