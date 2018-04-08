@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
 
@@ -9,7 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-  <link href="/static/plugins/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css" rel="stylesheet"> 
+  <link href="/static/plugins/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css" rel="stylesheet">
   <script src="/static/plugins/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
   <script src="/static/scripts/scripts.js"></script>
 </head>
@@ -18,7 +19,7 @@
   <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <!-- Brand -->
     <a class="navbar-brand" href="/">HomeAS</a>
-    
+
     <!-- Toggler/collapsibe Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
@@ -39,7 +40,8 @@
       </ul>
     </div>
   </nav>
-    {% block div %} {% endblock %}
+  {% block content %} {% endblock content %}
+
 </body>
 
 </html>

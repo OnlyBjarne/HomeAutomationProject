@@ -33,7 +33,7 @@ speed = '10'
 
 @APP.route("/")
 def main():
-    return render_template('index.html')
+    return render_template('index.html',views=['currentWeather.html','color.html','forecast.html'])
 
 @APP.route("/color")
 def color():
@@ -58,7 +58,7 @@ def weatherNow():
     #print("getting current weather")
     return jsonify(now)
 
-@APP.route("/weather/forcast",methods=['GET'])
+@APP.route("/weather/forecast",methods=['GET'])
 def weatherForcast():
     output = []
     for forecast in weather.forecast():

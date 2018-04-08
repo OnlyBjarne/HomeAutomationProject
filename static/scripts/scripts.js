@@ -6,6 +6,7 @@ $(document).ready(function () {
     }
     if(document.location.pathname == "/"){
        getWeatherNow();
+       getForecast();
     }
     if(document.location.pathname == "/timepicker"){
         alarmSet();
@@ -35,7 +36,7 @@ function getWeatherNow() {
 
 function getForecast(){
     
-    $.getJSON('/weather/forcast',function(data){
+    $.getJSON('/weather/forecast',function(data){
         //loop for x number of days
         for (let i = 0; i < 7*4; i++) {
             //convert yr's timeformat to something more pleasing for the eye
