@@ -8,11 +8,7 @@ The goal of this project is to make a dynamic, customizable SinglePageApplicatio
 
 ### How do I get set up? ###
 
-You need:
-
-	pip install python-yr
-
-	pip install paho-mqtt
+Run setup.sh as root
 
 Probably virtual env
 
