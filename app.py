@@ -14,18 +14,11 @@ except Exception as identifier:
     print(identifier)
 
 def on_connect(client, userdata, flags,rc):
+    client.subscribe("hello/world")
     print("connected with result code "+str(rc))
 
 def on_message(client,userdata,msg):
     print(msg.topic+" "+str(msg.payload))
-
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-
-client.username_pw_set(cfg['MQTT_USER'],cfg['MQTT_PASS'])
-client.connect_async(cfg['MQTT_BROKER'])
-client.loop_start()
 
 mode = "Solid"
 rgb = "rgb(100, 100, 100)"
@@ -71,7 +64,14 @@ def weatherForcast():
 def forecast():
     return render_template('layout.html',views=['forecast.html'])
 
-client.loop_stop()
-
 if  __name__ == "__main__":
+    
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    client.username_pw_set(cfg['MQTT_USER'],cfg['MQTT_PASS'])
+    client.connect_async(cfg['MQTT_BROKER'])
+    client.loop_start()
+
     APP.run(host="0.0.0.0", debug=True)
