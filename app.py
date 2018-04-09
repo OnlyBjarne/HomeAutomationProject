@@ -27,29 +27,29 @@ client.username_pw_set(cfg['MQTT_USER'],cfg['MQTT_PASS'])
 client.connect_async(cfg['MQTT_BROKER'])
 client.loop_start()
 
-mode = 'Solid'
-rgb = 'rgb(100, 100, 100)'
-speed = '10'
+mode = "Solid"
+rgb = "rgb(100, 100, 100)"
+speed = "10"
 
 @APP.route("/")
 def main():
-    return render_template('index.html',views=['currentWeather.html','color.html','forecast.html'])
+    return render_template('layout.html',views=['currentWeather.html','color.html'])
 
 @APP.route("/color")
 def color():
-    return render_template('color.html')
+    return render_template('layout.html',views=['color.html'])
 
 
 @APP.route("/color/picker",methods=['GET','POST'])
 def colorPicker():
     if request.method == 'POST':
         global mode
-        global rgb
+        global color
         global speed
         mode = request.form.get('mode')
-        rgb =  request.form.get('rgb')
+        rgb =  request.form.get('color')
         speed =  request.form.get('speed')
-    print(mode + "\n" + rgb + "\n" + speed)
+    print(str(mode) + "\n" + str(rgb) + "\n" + str(speed))
     return jsonify(mode=mode,rgb=rgb,speed=speed)
 
 @APP.route("/weather/now",methods=['GET'])
@@ -67,9 +67,9 @@ def weatherForcast():
     return jsonify(items=output)
 
 
-@APP.route("/weather",methods=['GET'])
+@APP.route("/forecast",methods=['GET'])
 def forecast():
-    return render_template('forecast.html')
+    return render_template('layout.html',views=['forecast.html'])
 
 client.loop_stop()
 

@@ -1,60 +1,4 @@
-<script>
-  $(document).ready(function () {
-
-    $(function () {
-      var mode;
-      var rgb;
-      var speed = "10";
-
-      $.getJSON("/color/picker", function (data) {
-        mode = data['mode'];
-        console.log(mode);
-        rgb = data['rgb'];
-        console.log(rgb);
-        speed = data['speed'];
-        console.log(speed);
-
-      }
-      );
-
-
-
-      $('#mode').change(function () {
-        mode = $(this).val();
-        send(mode, rgb, speed);
-      });
-      $('#colorpicker').colorpicker({
-        color: "\"" + rgb + "\"",
-        format: "rgb",
-        inline: true,
-        container: true
-      }).on('colorpickerChange', function (e) {
-        rgb = e.color.toString();
-        console.log(rgb);
-
-      }).on('mouseup touchend', function (f) {
-        send(mode, rgb, speed);
-      });
-    });
-
-    function send(newMode, newRgb, newSpeed) {
-      $.ajax({
-        type: 'POST',
-        url: '/color/picker',
-        data: {
-          'mode': newMode,
-          'rgb': newRgb,
-          'speed': newSpeed
-        },
-        success: function (msg) {
-
-        }
-
-      });
-    }
-  }
-  );
-</script>
+{% block content -%}
 <div class="col-sm-3 mt-3">
   <div class="card">
     <h4 class="card-header">Farge</h4>
@@ -62,16 +6,68 @@
       <div class="form-group">
         <label for="mode">Mode</label>
         <select class="custom-select" id="mode">
-          <option>Off</option>
+          <option value="OFF">Off</option>
           <optgroup label="Mode">
-            <option>Solid</option>
-            <option>Strand</option>
-            <option>Noise</option>
+            <option value=solid>Solid</option>
+            <option value="strand">Strand</option>
+            <option value="noice">Noise</option>
           </optgroup>
         </select>
       </div>
-      <label for="colorpicker">Color</label>
+      <label for="colorpicker" class="colorpicker">Color</label>
       <input type="text" id="colorpicker">
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+
+    $(function () {
+      var mode = "OFF";
+      var rgb = "rgb(200,200,200)";
+      $('#mode').change(function () {
+        mode = $(this).val();
+        if (mode.localeCompare("OFF") == 0) {
+          $(".colorpicker").hide();
+          $("#colorpicker").spectrum("container").hide();
+        } else {
+          $(".colorpicker").show();
+          $("#colorpicker").spectrum("container").show();
+        }
+        send(mode, rgb);
+      });
+
+      $("#colorpicker").spectrum({
+        flat: true,
+        showInput: false,
+        showButtons: false
+      })
+      $("#colorpicker").on("dragstop.spectrum", function (e, color) {
+        rgb = color.toRgbString();
+        console.log(rgb);
+        send(mode, rgb);
+      });
+      $(".colorpicker").hide();
+      $("#colorpicker").spectrum("container").hide();
+
+    });
+
+    function send(newMode, newRgb) {
+      $.ajax({
+        type: 'POST',
+        url: '/color/picker',
+        data: {
+          'mode': newMode,
+          'color': newRgb,
+        },
+        success: function (msg) {
+
+        }
+
+      });
+    }
+
+
+  }
+  );
+</script> {%- endblock content %}

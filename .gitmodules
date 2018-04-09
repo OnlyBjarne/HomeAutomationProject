@@ -1,3 +1,3 @@
-[submodule "static/plugins/bootstrap-colorpicker"]
-	path = static/plugins/bootstrap-colorpicker
-	url = https://github.com/farbelous/bootstrap-colorpicker.git
+[submodule "static/plugins/spectrum"]
+	path = static/plugins/spectrum
+	url = https://github.com/bgrins/spectrum
