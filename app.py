@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify,request
 from yr.libyr import Yr
 import yaml
 import paho.mqtt.client as mqtt
+from scheduler import scheduler
 
 APP = Flask(__name__)
 
@@ -64,6 +65,10 @@ def weatherForcast():
 def forecast():
     return render_template('layout.html',views=['forecast.html'])
 
+@APP.route("/alarm",methods=['GET','POST'])
+def alarm():
+    return render_template('alarm.html',schedules=schedule.getSchedules())
+
 if  __name__ == "__main__":
     
     client = mqtt.Client()
@@ -74,4 +79,5 @@ if  __name__ == "__main__":
     client.connect_async(cfg['MQTT_BROKER'])
     client.loop_start()
 
+    schedule = scheduler(cfg['MQTT_USER'],cfg['MQTT_PASS'])
     APP.run(host="0.0.0.0", debug=True)
