@@ -3,16 +3,14 @@ from yr.libyr import Yr
 import yaml
 import paho.mqtt.client as mqtt
 from scheduler import scheduler
+from pubsub import pubsub
 
 APP = Flask(__name__)
 
 with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
-try:
     weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
-except Exception as identifier:
-    print(identifier)
 
 def on_connect(client, userdata, flags,rc):
     client.subscribe("hello/world")
@@ -78,6 +76,7 @@ if  __name__ == "__main__":
     client.username_pw_set(cfg['MQTT_USER'],cfg['MQTT_PASS'])
     client.connect_async(cfg['MQTT_BROKER'])
     client.loop_start()
-
-    schedule = scheduler(cfg['MQTT_USER'],cfg['MQTT_PASS'])
+    pubsubscriber = pubsub(cfg['MQTT_USER'],cfg['MQTT_PASS'])
+    schedule = scheduler()
+    
     APP.run(host="0.0.0.0", debug=True)
