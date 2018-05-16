@@ -1,10 +1,10 @@
 from crontab import CronTab
 import datetime
+import sched, time
 
+ TODO: Fix scheduler using python sched istead of crontab for cross platform support
 
-class scheduler:
-    
-
+"""class scheduler:
     def __init__(self):
         self.cron = CronTab(user=True)
 
@@ -18,11 +18,8 @@ class scheduler:
         self.cron.write()
         return True
 
-    def getSchedules(self):
-        print("getting jobs")
-        joblist = []
-        for job in self.cron:
-            print(job)
-            joblist.append(job)
+  def getSchedules(self):
+       
         return joblist
 
+"""

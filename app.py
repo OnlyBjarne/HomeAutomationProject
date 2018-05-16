@@ -1,23 +1,18 @@
 from flask import Flask, render_template, jsonify,request
 from yr.libyr import Yr
 import yaml
-import paho.mqtt.client as mqtt
-from scheduler import scheduler
-from pubsub import pubsub
+from pubsubConnection import pubsubConnection
+#from scheduler import scheduler
 
 APP = Flask(__name__)
 
 with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
+try:
     weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
-
-def on_connect(client, userdata, flags,rc):
-    client.subscribe("hello/world")
-    print("connected with result code "+str(rc))
-
-def on_message(client,userdata,msg):
-    print(msg.topic+" "+str(msg.payload))
+except e:
+    print("Whoops, something went wrong with fetching your weather! :/ " + e)
 
 mode = "Solid"
 rgb = "rgb(100, 100, 100)"
@@ -68,15 +63,6 @@ def alarm():
     return render_template('alarm.html',schedules=schedule.getSchedules())
 
 if  __name__ == "__main__":
-    
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
 
-    client.username_pw_set(cfg['MQTT_USER'],cfg['MQTT_PASS'])
-    client.connect_async(cfg['MQTT_BROKER'])
-    client.loop_start()
-    pubsubscriber = pubsub(cfg['MQTT_USER'],cfg['MQTT_PASS'])
-    schedule = scheduler()
-    
+    mqtt = pubsubConnection(cfg['MQTT_USER'],cfg['MQTT_PASS'],cfg['MQTT_BROKER'])
     APP.run(host="0.0.0.0", debug=True)
