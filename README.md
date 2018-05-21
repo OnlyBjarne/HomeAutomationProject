@@ -8,9 +8,9 @@ The goal of this project is to make a dynamic, customizable SinglePageApplicatio
 
 ### How do I get set up? ###
 
-Run setup.sh as root
-
-Probably virtual env
+1. Install pipenv
+2. Run "pipenv install"
+3. To run project run "pipenv run python app.py"
 
 ### Who do I talk to? ###
 * Me
