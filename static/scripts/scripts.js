@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 });
 
-
+/* 
 function getWeatherNow() {
     $.getJSON('/weather/now', function (data) {
         var result = [
@@ -34,7 +34,7 @@ function getWeatherNow() {
             padString(result[4], 3) + ".png\">");
     });
     setTimeout(getWeatherNow, 10 * 60 * 1000);
-}
+} */
 
 function getForecast() {
 

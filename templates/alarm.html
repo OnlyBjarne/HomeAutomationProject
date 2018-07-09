@@ -6,6 +6,39 @@
       {% for alarm in schedules %}
         <li>{{alarm}}</li>
       {% endfor %}
+      
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Legg til</button>
+      <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Legg til alarm</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form action="/alarm" method="POST">
+                <div class="input-group">
+                  <input id="timepicker" type="time" name="time" class="form-control input-md">
+                  <div class="input-group-append">
+                    <span class="input-group-text">Tid</span>
+                  </div>
+                </div>
+                <input type="submit" value="Legg til" class="btn btn-primary">
+              </form>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+      
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

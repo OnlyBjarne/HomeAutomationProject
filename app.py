@@ -1,18 +1,21 @@
-from flask import Flask, render_template, jsonify,request
+from flask import Flask, render_template, jsonify,request,redirect
 from yr.libyr import Yr
 import yaml
 from pubsubConnection import pubsubConnection
-#from scheduler import scheduler
+from schedules import schedules
 
 APP = Flask(__name__)
 
 with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
+schedule = schedules()
+
 try:
     weather = Yr(location_name='Norge/Sør-Trøndelag/Trondheim/Trondheim')
-except e:
-    print("Whoops, something went wrong with fetching your weather! :/ " + e)
+except RuntimeWarning:
+    print("Whoops, something went wrong with fetching your weather!")
+    pass
 
 mode = "Solid"
 rgb = "rgb(100, 100, 100)"
@@ -22,16 +25,11 @@ speed = "10"
 def main():
     return render_template('layout.html',views=['currentWeather.html','color.html'])
 
-@APP.route("/color")
-def color():
-    return render_template('layout.html',views=['color.html'])
-
-
 @APP.route("/color/picker",methods=['GET','POST'])
 def colorPicker():
     if request.method == 'POST':
         global mode
-        global color
+        global rgb
         global speed
         mode = request.form.get('mode')
         rgb =  request.form.get('color')
@@ -41,16 +39,21 @@ def colorPicker():
 
 @APP.route("/weather/now",methods=['GET'])
 def weatherNow():
-    now = weather.now()
+    now = weather.now(as_json=False)
     #print("getting current weather")
-    return jsonify(now)
+    return render_template('currentWeather.html',
+        temp=now['temperature']['@value'],
+        precipitation=now['precipitation']['@value'],
+        windDir=now['windDirection']['@code'],
+        windSpeed=now['windSpeed']['@mps'],
+        symbol=now['symbol']['@var'])
+
 
 @APP.route("/weather/forecast",methods=['GET'])
 def weatherForcast():
     output = []
     for forecast in weather.forecast():
         output.append(forecast)
-    #print("getting forecast weather")
     return jsonify(items=output)
 
 
@@ -60,9 +63,13 @@ def forecast():
 
 @APP.route("/alarm",methods=['GET','POST'])
 def alarm():
-    return render_template('alarm.html',schedules=schedule.getSchedules())
+    if request.method == 'POST':
+        schedule.addJob('alarm',"2018-06-25 "+request.form.get('time'),"echo woho")
+        return redirect("/alarm")
+    else:
+        return render_template('layout.html',views=['alarm.html'],schedules=schedule.getSchedules())
 
-if  __name__ == "__main__":
 
+if __name__ == "__main__":
     mqtt = pubsubConnection(cfg['MQTT_USER'],cfg['MQTT_PASS'],cfg['MQTT_BROKER'])
     APP.run(host="0.0.0.0", debug=True)

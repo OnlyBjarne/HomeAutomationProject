@@ -8,7 +8,7 @@ flask = "*"
 python-yr = "*"
 paho-mqtt = "*"
 PyYAML = "*"
-apscheduler = "*"
+python-crontab = "*"
 
 [dev-packages]
 pylint = "*"

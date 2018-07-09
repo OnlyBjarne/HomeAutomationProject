@@ -1,24 +1,26 @@
+
 <div class="col-12 col-lg-3 mt-3">
   <a href='forecast' class="card">
     <h4 class="card-header">Vær</h4>
     <div class="card-body">
-      <img src="" id="weathericon">
+      <img src="/static/images/weatherIcons/{{ symbol }}.png">
       <table class="table">
         <tbody id="weatherTable">
           <tr>
             <td>Temperatur</td>
-            <td class="text-right" id="tempData"></td>
+            <td class="text-right" id="tempData">{{ temp }}&degC</td>
           </tr>
           <tr>
             <td>Nedbør</td>
-            <td class="text-right" id="perciData"></td>
+            <td class="text-right" id="perciData">{{ precipitation }} mm</td>
           </tr>
           <tr>
             <td>Vind</td>
-            <td class="text-right" id="windData"></td>
+            <td class="text-right" id="windData"> {{ windSpeed }}m/s fra {{ windDir }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </a>    
 </div>
+
