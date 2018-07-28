@@ -35,7 +35,7 @@ function getWeatherNow() {
     });
     setTimeout(getWeatherNow, 10 * 60 * 1000);
 } */
-
+/* 
 function getForecast() {
 
     $.getJSON('/weather/forecast', function (data) {
@@ -65,7 +65,7 @@ function getForecast() {
             );
         }
     });
-}
+} */
 
 function padString(string, lenght) {
     return ("0000" + string).substr(-lenght);

@@ -3,6 +3,8 @@ from yr.libyr import Yr
 import yaml
 from pubsubConnection import pubsubConnection
 from schedules import schedules
+import json
+import datetime
 
 APP = Flask(__name__)
 
@@ -23,7 +25,7 @@ speed = "10"
 
 @APP.route("/")
 def main():
-    return render_template('layout.html',views=['currentWeather.html','color.html'])
+    return render_template('layout.html',views=['currentWeather.html','color.html'],weather=weatherNow())
 
 @APP.route("/color/picker",methods=['GET','POST'])
 def colorPicker():
@@ -40,26 +42,36 @@ def colorPicker():
 @APP.route("/weather/now",methods=['GET'])
 def weatherNow():
     now = weather.now(as_json=False)
-    #print("getting current weather")
-    return render_template('currentWeather.html',
-        temp=now['temperature']['@value'],
-        precipitation=now['precipitation']['@value'],
-        windDir=now['windDirection']['@code'],
-        windSpeed=now['windSpeed']['@mps'],
-        symbol=now['symbol']['@var'])
-
+    print("getting current weather")
+    weatherJson = { "temp":now['temperature']['@value'],
+                    "precipitation":now['precipitation']['@value'],
+                    "windDir":now['windDirection']['@code'],
+                    "windSpeed":now['windSpeed']['@mps'],
+                    "symbol":now['symbol']['@var']}
+                
+    return weatherJson
 
 @APP.route("/weather/forecast",methods=['GET'])
 def weatherForcast():
-    output = []
+    forecastArray = []
+    #date,symbol,temp,precipitation,winddir,windspeed,
     for forecast in weather.forecast():
-        output.append(forecast)
-    return jsonify(items=output)
-
+        time = datetime.datetime.strptime(forecast['@from'],"%Y-%m-%dT%H:%M:%S")
+        dayName = ["Man", "Tir", "Ons", "Tor", "Fre", "Lør","Søn"]
+        forecastArray.append({
+            "time":"{} {:%H:%M}".format(str(dayName[time.weekday()-1]),time),#readable datetime
+            "symbol":forecast['symbol']['@var'],
+            "temp":forecast['temperature']['@value'],
+            "precipitation":forecast['precipitation']['@value'],
+            "windDir":forecast['windDirection']['@code'],
+            "windSpeed":forecast['windSpeed']['@mps']
+        })
+        
+    return forecastArray
 
 @APP.route("/forecast",methods=['GET'])
 def forecast():
-    return render_template('layout.html',views=['forecast.html'])
+    return render_template('layout.html',views=['forecast.html'],forecast=weatherForcast())
 
 @APP.route("/alarm",methods=['GET','POST'])
 def alarm():

@@ -13,6 +13,25 @@
           <th>Vind</th>
         </thead>
         <tbody>
+          {% for item in forecast %}
+          <tr>
+              <td>
+                {{ item.time }}
+              </td>
+              <td>
+                <img src="/static/images/weatherIcons/{{ item.symbol }}.png" style="width: 25px">
+              </td>
+              <td>
+                {{ item.temp }}&degC
+              </td>
+              <td>
+                {{ item.precipitation }} mm
+              </td>
+              <td>
+                {{ item.windSpeed }} m/s
+              </td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
