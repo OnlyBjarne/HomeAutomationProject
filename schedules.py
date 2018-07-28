@@ -13,8 +13,6 @@ class schedules:
         else:
             print("Oops, something went wrong with adding this job! :(")
             job.enable(False)
-                
-            
 
     def removeJob(self,comment):
         self.scheduler.remove_all(comment=comment)
