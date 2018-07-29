@@ -1,13 +1,13 @@
 #PAGES
 PAGE: 
   HOME:
-    - currentWeather.html
-    - color.html 
-    - alarm.html
+    - modules/currentWeather.html
+    - modules/color.html 
+    - modules/alarm.html
   FORECAST:
-    - forecast.html
+    - modules/forecast.html
   ALARM:
-    - alarm.html
+    - modules/alarm.html
   
 
 
