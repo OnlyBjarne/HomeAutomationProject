@@ -4,20 +4,20 @@
     <h4 class="card-header">Alarmer</h4>
     <div class="card-body">
       {% for alarm in schedules %}
-        <li>{{alarm}}</li>
+      <li>{{alarm}}</li>
       {% endfor %}
-      
+
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Legg til</button>
       <div class="modal fade" id="myModal">
         <div class="modal-dialog">
           <div class="modal-content">
-      
+
             <!-- Modal Header -->
             <div class="modal-header">
               <h4 class="modal-title">Legg til alarm</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-      
+
             <!-- Modal body -->
             <div class="modal-body">
               <form action="/alarm" method="POST">
@@ -30,16 +30,22 @@
                 <input type="submit" value="Legg til" class="btn btn-primary">
               </form>
             </div>
-      
+
             <!-- Modal footer -->
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
-      
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-{%- endblock content %}
+
+<script>
+  $(document).ready(function () {
+    $('#time').bootstrapMaterialDatePicker({ date: false });
+  })
+
+</script> {%- endblock content %}

@@ -23,8 +23,8 @@
   $(document).ready(function () {
 
     $(function () {
-      var mode = "OFF";
-      var rgb = "rgb(200,200,200)";
+      var mode = "{{ color.mode }}";
+      var rgb = "{{ color.rgb }}";
       $('#mode').change(function () {
         mode = $(this).val();
         if (mode.localeCompare("OFF") == 0) {
@@ -40,6 +40,7 @@
       $("#colorpicker").spectrum({
         flat: true,
         showInput: false,
+        color: "{{ color.rgb }}",
         showButtons: false
       })
       $("#colorpicker").on("dragstop.spectrum", function (e, color) {

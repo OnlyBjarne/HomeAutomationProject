@@ -1,3 +1,17 @@
+#PAGES
+PAGE: 
+  HOME:
+    - currentWeather.html
+    - color.html 
+    - alarm.html
+  FORECAST:
+    - forecast.html
+  ALARM:
+    - alarm.html
+  
+
+
+
 #WIFI
 SSID: SSID
 WPA_KEY:  WIFI_PASSWORD
