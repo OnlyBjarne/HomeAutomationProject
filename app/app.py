@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request, redirect
+from flask.ext.login import LoginManager, UserMixin, login_required, login_user, logout_user 
 import yaml
 from pubsubConnection import pubsubConnection
 from schedules import schedules
@@ -12,6 +13,7 @@ with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
 try:
+    login_manager = LoginManager()
     mqtt = pubsubConnection(cfg['MQTT_USER'], cfg['MQTT_PASS'], cfg['MQTT_BROKER'])
     schedule = schedules()
     yr = weather()
@@ -45,6 +47,7 @@ def forecast():
 
 
 @APP.route("/alarm", methods=['GET', 'POST'])
+@login_requred
 def alarm():
     if request.method == 'POST':
         schedule.addJob('alarm', "2018-06-25" +
@@ -55,5 +58,4 @@ def alarm():
 
 
 if __name__ == "__main__":
-    
     APP.run(host="0.0.0.0", debug=True)

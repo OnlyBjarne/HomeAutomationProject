@@ -9,6 +9,7 @@ python-yr = "*"
 paho-mqtt = "*"
 PyYAML = "*"
 python-crontab = "*"
+flask-login = "*"
 
 [dev-packages]
 pylint = "*"
